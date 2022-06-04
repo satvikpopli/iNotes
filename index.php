@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>iNOTES</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 </head>
 
 <body>
@@ -15,7 +16,7 @@
         </div>
     </nav>
     <div class="my-5 w-75 mx-auto">
-        <h2 class="mb-4">Add a Note</h2>
+        <h2 class="mb-4 d-flex justify-content-center">Add a Note</h2>
         <form action="crud.php" method="POST">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -23,7 +24,7 @@
             </div>
             <div class="mb-3">
                 <label for="desc" class="form-label">Description (optional)</label>
-                <textarea class="form-control" id="desc" rows="3" name="desc"></textarea>
+                <textarea class="form-control" id="desc" rows="5" name="desc" style="height:100%;"></textarea>
             </div>
             <div class="d-flex justify-content-end mt-4">
                 <button type="submit" class="btn btn-primary">Add Note</button>
@@ -55,12 +56,12 @@
             </div>";
         }
 
-        echo '<h2 class="mb-2 d-flex justify-content-start my-5">Notes</h2>';
+        echo '<br> <hr> <h2 class="mb-2 d-flex justify-content-center my-5">Notes</h2>';
 
         $sql = "SELECT * FROM crud.notes";
 
         ?>
-        <table class="table my-4">
+        <table class="table my-4" id="myTable">
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -84,13 +85,17 @@
                 ?>
             </tbody>
         </table>
-
-
     </div>
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable();
+        });
+    </script>
 </body>
 
 </html>
