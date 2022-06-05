@@ -17,14 +17,14 @@
     </nav>
     <div class="my-5 w-75 mx-auto">
         <h2 class="mb-4 d-flex justify-content-center">Add a Note</h2>
-        <form action="crud.php" method="POST">
+        <form action="index.php" method="POST">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="title" name="title" required>
             </div>
             <div class="mb-3">
                 <label for="desc" class="form-label">Description (optional)</label>
-                <textarea class="form-control" id="desc" rows="5" name="desc" style="height:100%;"></textarea>
+                <textarea class="form-control" id="desc" rows="5" name="desc" style="height:100%;" maxlength="150"></textarea>
             </div>
             <div class="d-flex justify-content-end mt-4">
                 <button type="submit" class="btn btn-primary">Add Note</button>
@@ -49,7 +49,7 @@
             $conn->query($sql_insert);
             echo
             "<div class='alert alert-success alert-dismissible fade show my-4' role='alert'>
-            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+            Note added successfully.
             <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
             <span aria-hidden='true'>&times;</span>
             </button>
