@@ -43,21 +43,25 @@
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if(isset($_POST["snoEdit"])){
+            if (isset($_POST["snoEdit"]) && isset($_POST['update'])) {
                 $title = $_POST["titleEdit"];
                 $description = $_POST["descEdit"];
                 $snum = $_POST["snoEdit"];
                 $sql_update = "UPDATE `crud`.`notes` SET `title` = '$title', `description` = '$description' WHERE (`sno` = $snum)";
-                $updatedb = $conn->query($sql_update);
-            }
-            else{
+                $update = $conn->query($sql_update);
+            } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
+                $snum = $_POST["snoDelete"];
+                $sql_delete = "DELETE FROM `crud`.`notes` WHERE (`sno` = $snum)";
+                $delete = $conn->query($sql_delete);
+            } else {
+                echo "here";
                 $title = $_POST["title"];
                 $description = $_POST["desc"];
                 $sql_insert = "INSERT INTO `crud`.`notes` (`title`, `description`) VALUES ('$title', '$description')";
                 $insert = $conn->query($sql_insert);
-                if($insert){
-                echo
-                "<div class='alert alert-success alert-dismissible fade show my-4' role='alert'>
+                if ($insert) {
+                    echo
+                    "<div class='alert alert-success alert-dismissible fade show my-4' role='alert'>
                 Note added successfully.
                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                 <span aria-hidden='true'>&times;</span>
@@ -91,8 +95,8 @@
                         <td class='text-center'>" . $row['title'] . "</td>
                         <td class='d-flex justify-content-around'>" . $row['description'] . "</td>
                         <td class='text-center'>" .
-                            "<button type='button' class='edit mx-1 my-1 btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#editModal' id=".$row['sno'].">Edit</button> 
-                        <button type='button' class='delete mx-1 my-1 btn btn-outline-primary btn-sm'>Delete</button> " . "</td>
+                            "<button type='button' class='edit mx-1 my-1 btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#editModal' id=" . $row['sno'] . ">Edit</button> 
+                            <button type='button' class='delete mx-1 my-1 btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#deleteModal' id=" . $row['sno'] . ">Delete</button> " . "</td>
                         </tr>";
                         $item++;
                     }
@@ -102,7 +106,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Edit Modal -->
     <div class=" modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -123,20 +127,40 @@
                             <label for="descEdit" class="form-label">Description (optional)</label>
                             <textarea class="form-control" id="descEdit" rows="5" name="descEdit" style="height:100%;" maxlength="150"></textarea>
                         </div>
-                        <!-- <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary" name="update" value="true">Save changes</button>
                 </div>
                 </form>
             </div>
         </div>
     </div>
 
-
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="font-weight-bold">Are you sure you want to delete this note?</p>
+                    <p>This note will be deleted immediately. This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form action="index.php" method="post">
+                        <input type="hidden" name="snoDelete" id="snoDelete">
+                        <button type="submit" class="btn btn-primary" name="delete" value="true">Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -154,11 +178,18 @@
                 tr = e.target.parentNode.parentNode;
                 title = tr.getElementsByTagName("td")[0].innerText;
                 description = tr.getElementsByTagName("td")[1].innerText;
-                console.log(title, description);
-                console.log(e.target.id);
                 titleEdit.value = title;
                 descEdit.value = description;
                 snoEdit.value = e.target.id;
+            })
+        })
+
+        deletes = document.getElementsByClassName('delete');
+        Array.from(deletes).forEach((element) => {
+            element.addEventListener("click", (e) => {
+                tr = e.target.parentNode.parentNode;
+                console.log(e.target.id);
+                snoDelete.value = e.target.id;
             })
         })
     </script>
