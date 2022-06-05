@@ -54,7 +54,6 @@
                 $sql_delete = "DELETE FROM `crud`.`notes` WHERE (`sno` = $snum)";
                 $delete = $conn->query($sql_delete);
             } else {
-                echo "here";
                 $title = $_POST["title"];
                 $description = $_POST["desc"];
                 $sql_insert = "INSERT INTO `crud`.`notes` (`title`, `description`) VALUES ('$title', '$description')";
