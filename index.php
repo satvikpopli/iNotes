@@ -15,7 +15,7 @@
         <nav class="col-3">
         </nav>
         <div class="company-logo col-6 text-center">iNotes</div>
-        <nav class="gitlogo mr-4 col-3">
+        <nav class="gitlogo col-3">
             <a target="_blank" href="https://github.com/satvikpopli/iNotes">
                 <img src="https://www.tethysplatform.org/images/github-icon.png" alt="" width="50rem" height="50rem">
             </a>
@@ -82,34 +82,32 @@
         $sql = "SELECT * FROM crud.notes";
 
         ?>
-        <div class="table-responsive">
-            <table class="table my-4 table-hover" id="myTable">
-                <thead class="thead-dark text-center">
-                    <tr>
-                        <th scope="col" class="text-center col-1">#</th>
-                        <th scope="col" class="text-center col-2">Title</th>
-                        <th scope="col" class="text-center col-7">Description</th>
-                        <th scope="col" class="text-center col-2">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $item = 1;
-                    foreach ($conn->query($sql) as $row) {
-                        echo "<tr>
+        <table class="table my-4 table-hover" id="myTable">
+            <thead class="thead-dark text-center">
+                <tr>
+                    <th scope="col" class="text-center col-1">#</th>
+                    <th scope="col" class="text-center col-2">Title</th>
+                    <th scope="col" class="text-center col-7">Description</th>
+                    <th scope="col" class="text-center col-2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $item = 1;
+                foreach ($conn->query($sql) as $row) {
+                    echo "<tr>
                         <th scope='row' class='text-center'> $item </th>
                         <td class='text-center'>" . $row['title'] . "</td>
                         <td class='d-flex justify-content-around'>" . $row['description'] . "</td>
                         <td class='text-center'>" .
-                            "<button type='button' class='edit mx-1 my-1 btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#editModal' id=" . $row['sno'] . ">Edit</button> 
+                        "<button type='button' class='edit mx-1 my-1 btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#editModal' id=" . $row['sno'] . ">Edit</button> 
                             <button type='button' class='delete mx-1 my-1 btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#deleteModal' id=" . $row['sno'] . ">Delete</button> " . "</td>
                         </tr>";
-                        $item++;
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+                    $item++;
+                }
+                ?>
+            </tbody>
+        </table>
     </div>
 
     <!-- Edit Modal -->
