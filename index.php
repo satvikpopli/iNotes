@@ -7,14 +7,21 @@
     <title>iNOTES</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand mx-auto" href="#">NOTE TAKING APP</a>
-        </div>
-    </nav>
+<body class="bg-light">
+    <header>
+        <nav class="col-3">
+        </nav>
+        <div class="company-logo col-6 text-center">iNotes</div>
+        <nav class="gitlogo mr-4 col-3">
+            <a target="_blank" href="https://github.com/satvikpopli/iNotes">
+                <img src="https://www.tethysplatform.org/images/github-icon.png" alt="" width="50rem" height="50rem">
+            </a>
+        </nav>
+    </header>
+
     <div class="my-5 w-75 mx-auto">
         <h2 class="mb-4 d-flex justify-content-center">Add New Note</h2>
         <form action="index.php" method="POST">
@@ -192,6 +199,7 @@
             })
         })
     </script>
+    <!-- </div> -->
 </body>
 
 
